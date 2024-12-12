@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import axios from "axios";
+
 
 import {
         Dialog,
@@ -27,6 +28,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { FileUpload } from "../file-upload";
 import { useRouter } from "next/navigation";
+import { useModal } from "@/hooks/use-modal-store";
 
 const formSchema = z.object({
         name: z.string().min(1, {
@@ -38,14 +40,12 @@ const formSchema = z.object({
 })
 
 
-export const InitialModel = () => {
-        const [isMounted, setIsMounted] = useState(false)
-        useEffect(() => {
-                setIsMounted(true);
-        }, []);
+export const CreateServerModal = () => {
 
+    const {isOpen, onClose, type} = useModal();
         const router = useRouter();
 
+    const isModalOpen = isOpen && type === "createServer";
         const form = useForm({
                 defaultValues: {
                         name: "",
@@ -63,19 +63,20 @@ export const InitialModel = () => {
 
                         form.reset();
                         router.refresh();
-                        window.location.reload();
-                        
+                        onClose();
                 }catch(error) {
                         console.log(error);
                 }
         }
 
-        if (!isMounted) {
-                return null;
-        }
+    const handleClose = () => {
+        form.reset();
+        onClose();
+    }
 
+    
         return (
-                <Dialog open={true}>
+                <Dialog open={isModalOpen} onOpenChange = {handleClose} >
                         <DialogContent className="bg-white text-black p-0 overflow-hidden ">
                                 <DialogHeader className="pt-8 px-6">
                                         <DialogTitle className="text-2xl text-center font-bold">
