@@ -4,7 +4,10 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "@/components/providers/theme-provider";
+import {ModalProvider} from "@/components/providers/modal-provider";
 import { cn } from "@/lib/utils";
+
+
 const openSans = Open_Sans({
   subsets: ['latin'],
   variable: '--font-open-sans',
@@ -46,6 +49,8 @@ export default function RootLayout({
         defaultTheme="dark"
         enableSystem={false}
         storageKey="discord-theme">
+
+        <ModalProvider />
         {children}
         </ThemeProvider>
       </body>
