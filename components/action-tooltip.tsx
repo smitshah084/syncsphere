@@ -6,7 +6,7 @@ import {
     TooltipProvider,
     TooltipTrigger,
   } from "@/components/ui/tooltip"
-  
+
 
 interface ActionTooltipProps {
     label: string;
@@ -21,7 +21,7 @@ export const ActionTooltip = ({
     side,
     align
 }: ActionTooltipProps) => {
-    return {
+    return (
         <TooltipProvider>
             <Tooltip delayDuration={50}>
                 <TooltipTrigger asChild>
@@ -36,5 +36,5 @@ export const ActionTooltip = ({
 
             </Tooltip>
         </TooltipProvider>
-    }
+    )
 }

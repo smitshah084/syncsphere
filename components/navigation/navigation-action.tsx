@@ -9,11 +9,11 @@ export const NavigationAction = () => {
 
     const { onOpen } = useModal();
 
-    return {
+    return (
 
         <div>
 
-            <ActionTooltip 
+            <ActionTooltip
                 side="right"
                 align="center"
                 label="Add a server"
@@ -27,12 +27,13 @@ export const NavigationAction = () => {
                     >
                         <Plus
                             className="group-hover:text-white transition text-emerald-500"
-                            size={25} 
+                            size={25}
                         />
 
                     </div>
                 </button>
             </ActionTooltip>
         </div>
-    }
+    
+)
 }

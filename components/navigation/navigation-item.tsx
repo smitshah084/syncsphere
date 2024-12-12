@@ -25,7 +25,7 @@ export const NavigationItem = ({
         router.push(`/servers/${id}`);
     }
 
-    return {
+    return (
         <ActionTooltip
             side="right"
             align="center"
@@ -46,7 +46,7 @@ export const NavigationItem = ({
                     "relative group flex mx-3 h-[48px] w-[48px] rounded-[24px] group-hover:rounded-[16px] transition-all overflow-hidden",
                     params?.serverId === id && "bg-primary/10 text-primary rounded-[16px]"
                 )}>
-                    <Image 
+                    <Image
                         fill
                         src={imageUrl}
                         alt="Channel"
@@ -54,5 +54,5 @@ export const NavigationItem = ({
                 </div>
             </button>
         </ActionTooltip>
-    }
+    )
 }
