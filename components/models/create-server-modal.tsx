@@ -42,7 +42,7 @@ const formSchema = z.object({
 
 export const CreateServerModal = () => {
 
-    const {isOpen, onClose, type} = useModal();
+    const {isOpen, closeModal, type} = useModal();
         const router = useRouter();
 
     const isModalOpen = isOpen && type === "createServer";
@@ -55,15 +55,17 @@ export const CreateServerModal = () => {
         const isLoading = form.formState.isSubmitting;
 
         const onSubmit = async (values: z.infer<typeof formSchema>) => {
-                
+
                 try {
-                        await axios.post("api/servers",
+
+                    console.log(values);
+                        await axios.post("/api/servers",
                                 values
                         );
 
                         form.reset();
                         router.refresh();
-                        onClose();
+                        closeModal();
                 }catch(error) {
                         console.log(error);
                 }
@@ -71,10 +73,10 @@ export const CreateServerModal = () => {
 
     const handleClose = () => {
         form.reset();
-        onClose();
+        closeModal();
     }
 
-    
+
         return (
                 <Dialog open={isModalOpen} onOpenChange = {handleClose} >
                         <DialogContent className="bg-white text-black p-0 overflow-hidden ">
@@ -119,7 +121,7 @@ export const CreateServerModal = () => {
                                                                                         <FormControl>
                                                                                                 <Input
                                                                                                         disabled={isLoading}
-                                                                                                        className="bg-zinc-300/50 border-0 
+                                                                                                        className="bg-zinc-300/50 border-0
                                                                         focus-visible:ring-0 text-black
                                                                         focus-visible:ring-offset-0 text-black
                                                                         "

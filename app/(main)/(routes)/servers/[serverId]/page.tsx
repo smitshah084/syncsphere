@@ -1,6 +1,6 @@
 const ServerIdPage = () => {
     return (
-        <div>Server Id Page</div>
+        <div>Server Id Page is this deer</div>
     );
 }
 

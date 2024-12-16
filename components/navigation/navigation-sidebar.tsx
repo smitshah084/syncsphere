@@ -10,6 +10,7 @@ import {db} from "@/lib/db";
 import {NavigationAction} from "@/components/navigation/navigation-action";
 import {NavigationItem} from "@/components/navigation/navigation-item";
 
+// The `NavigationSidebar` component is an asynchronous function that renders the navigation sidebar for the application. It fetches the current user's profile and the servers the user is a member of, and then renders a navigation sidebar with the user's servers, a mode toggle, and a user button.
 
 export const NavigationSidebar =async () => {
 

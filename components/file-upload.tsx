@@ -1,7 +1,7 @@
 "use client";
 
 import { UploadDropzone } from "@/lib/uploadthing";
-import "@uploadthing/react/styles.css"
+
 import {X} from "lucide-react";
 import Image from "next/image"
 
@@ -32,7 +32,7 @@ export const FileUpload = ({onChange,value,endpoint}:FileUploadProps ) => {
                 </button>
             </div>
           );
-        } 
+        }
 
         return (
                 <UploadDropzone
@@ -46,5 +46,3 @@ export const FileUpload = ({onChange,value,endpoint}:FileUploadProps ) => {
                 />
         )
 }
-
-
