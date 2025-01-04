@@ -5,7 +5,7 @@ import { auth } from "@clerk/nextjs/server";
 export const currentProfile = async () => {
     const { userId } =await auth();
     const loggs=await auth();
-    console.log("userId", loggs);
+    // console.log("userId", loggs);
     if(!userId) {
         return null;
     }
