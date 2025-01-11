@@ -13,11 +13,13 @@ const ServerIdLayout =async ({
 }:{children : React.ReactNode;
     params : {serverId:string};
 }) => {
+
     const profile=await currentProfile();
 
     if (!profile){
         RedirectToSignIn({});
     }
+
     const server=await db.server.findUnique({
         where:{
             id:params?.serverId,
