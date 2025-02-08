@@ -50,7 +50,7 @@ const {openModal,closeModal}=useModal();
             }
             {
                 isAdmin && (
-                    <DropdownMenuItem 
+                    <DropdownMenuItem
                     onClick={() => openModal("members", { server })}
                     className="text-indigo-600 dark:text-indigo-400 px-3 py-2 text-sm cursor-pointer">
                         Manage Members
@@ -61,7 +61,9 @@ const {openModal,closeModal}=useModal();
             }
              {
                 isModerator && (
-                    <DropdownMenuItem className="text-indigo-600 dark:text-indigo-400 px-3 py-2 text-sm cursor-pointer">
+                    <DropdownMenuItem
+                    onClick={() => openModal("createChannel", { server })}
+                    className="text-indigo-600 dark:text-indigo-400 px-3 py-2 text-sm cursor-pointer">
                         Create Channels
 
                         <PlusCircle className="h-4 w-4 ml-auto" />
@@ -77,7 +79,9 @@ const {openModal,closeModal}=useModal();
             }
             {
                 isAdmin && (
-                    <DropdownMenuItem className="text-rose-500   px-3 py-2 text-sm cursor-pointer">
+                    <DropdownMenuItem
+                    onClick={() => openModal("deleteServer", { server })}
+                    className="text-rose-500   px-3 py-2 text-sm cursor-pointer">
                         Delete Server
 
                         <Trash className=" h-4 w-4 ml-auto" />
@@ -87,7 +91,9 @@ const {openModal,closeModal}=useModal();
             {
 
                 !isAdmin && (
-                    <DropdownMenuItem className="text-rose-500   px-3 py-2 text-sm cursor-pointer">
+                    <DropdownMenuItem
+                    onClick={() => openModal("leaveServer", { server })}
+                    className="text-rose-500   px-3 py-2 text-sm cursor-pointer">
                         Leave Server
                         <LogOutIcon className=" h-4 w-4 ml-auto" />
                     </DropdownMenuItem>
