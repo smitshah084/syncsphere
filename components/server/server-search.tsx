@@ -4,6 +4,7 @@ import { Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Command, CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "../ui/command";
 import { useParams, useRouter } from "next/navigation";
+import { DialogTitle } from "../ui/dialog";
 
 interface ServerSearchProps {
     data: {
@@ -56,6 +57,7 @@ export const ServerSearch = ({ data }: ServerSearchProps) => {
                 </kbd>
             </button>
             <CommandDialog open={open} onOpenChange={setOpen}>
+                <DialogTitle className="sr-only">Search servers and members</DialogTitle>
                 <CommandInput placeholder="Search all channels and members" />
                 <CommandList>
                     <CommandEmpty>No Results found</CommandEmpty>

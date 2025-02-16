@@ -16,15 +16,16 @@ const roleIconMap = {
         [MemberRole.ADMIN]: <ShieldAlert className="h-4 w-4 ml-2 text-rose-500" />
       };
 
-export const ServerMember = async ({
+// Remove async from the component definition
+export const ServerMember = ({
         member,
         server
 }: ServerMemberProps) => {
         const params = useParams();
         const router = useRouter();
-        
+
         const icon = roleIconMap[member.role];
-        
+
         return (
           <button
             className={cn(
@@ -32,11 +33,11 @@ export const ServerMember = async ({
               params?.memberId === member.id && "bg-zinc-700/20 dark:bg-zinc-700"
             )}
           >
-<UserAvatar 
-    src={member.profile.imageUrl} 
-    className="h-8 w-8 md:h-8 md:w-8" 
+<UserAvatar
+    src={member.profile.imageUrl}
+    className="h-8 w-8 md:h-8 md:w-8"
 />
-<p 
+<p
     className={cn(
         "font-semibold text-sm text-zinc-500 group-hover:text-zinc-600 dark:text-zinc-400 dark:group-hover:text-zinc-300 transition",
         params?.channelId === member.id && "text-primary dark:text-zinc-200 dark:group-hover:text-white"

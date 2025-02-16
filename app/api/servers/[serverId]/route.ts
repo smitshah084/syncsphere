@@ -11,7 +11,7 @@ export async function PATCH(req: Request, { params }: { params: { serverId: stri
         const { name, imageUrl } = await req.json();
 
         // Extract serverId after awaiting params
-        const { serverId } = await params;
+        const {serverId} = await params;
 
         if (!profile) {
             return new NextResponse("Unauthorized", { status: 401 });
@@ -43,7 +43,7 @@ export async function PATCH(req: Request, { params }: { params: { serverId: stri
 export async function DELETE(req: Request, { params }: { params: { serverId: string } }) {
     try {
         const profile = await currentProfile();
-        const { serverId } = await params;
+        const serverId = params.serverId;
 
         if (!profile) {
             return new NextResponse("Unauthorized", { status: 401 });
