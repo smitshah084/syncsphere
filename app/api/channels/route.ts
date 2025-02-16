@@ -6,11 +6,22 @@ import { NextResponse } from "next/server";
 export async function POST(req:Request) {
     try {
         const profile = await currentProfile();
-        const {name,type}=await req.json();
-        const {searchParams}=new URL(req.url);
-        const serverId=searchParams.get("serverId");
+        const body = await req.json();
+        console.log("Backend Create - Received request body:", body);
+
+        const {name, type} = body;
+        const {searchParams} = new URL(req.url);
+        const serverId = searchParams.get("serverId");
+
+        console.log("Backend Create - Request data:", {
+            name,
+            type,
+            serverId,
+            profileId: profile?.id
+        });
 
         if(!profile) {
+            console.log("Backend Create - No profile found");
             return new NextResponse("Unauthorized",{status:401});
         }
         if(!serverId) {
@@ -43,9 +54,10 @@ export async function POST(req:Request) {
 
         });
 
+        console.log("Backend Create - Server response:", server);
         return  NextResponse.json(server);
     } catch (error) {
-        console.log("channel_post",error);
+        console.error("Backend Create - Error:", error);
         return new NextResponse("Internal error",{status:500});
     }
 }

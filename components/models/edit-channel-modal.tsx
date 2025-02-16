@@ -61,12 +61,17 @@ export const EditChannelModal = () => {
         resolver: zodResolver(formSchema),
         defaultValues: {
             name: "",
-            type: channel?.type || ChannelType.TEXT
+            type: ChannelType.TEXT // Remove channel?.type here as it's handled in useEffect
         }
     });
 
     useEffect(() => {
         if(channel){
+            console.log("Initial channel data:", channel);
+            console.log("Setting initial form values:", {
+                name: channel.name,
+                type: channel.type
+            });
             form.setValue("name",channel.name)
             form.setValue("type",channel.type)
         }
@@ -74,23 +79,40 @@ export const EditChannelModal = () => {
 
     const isLoading = form.formState.isSubmitting;
 
+    const handleTypeChange = (newType: ChannelType) => {
+        console.log("Type changed to:", newType);
+        form.setValue("type", newType);
+        console.log("Current form values:", form.getValues());
+    };
+
     const onSubmit = async (values: FormValues) => {
         try {
+            console.log("Form values before submission:", values);
+            console.log("Current channel type:", channel?.type);
+            console.log("Selected type:", values.type);
 
             const { serverId } = await Promise.resolve(params);
             const url = qs.stringifyUrl({
                 url: `/api/channels/${channel?.id}`,
                 query: {
-                    serverId : server?.id
+                    serverId: server?.id
                 }
             });
-            await axios.patch(url, values);
+            console.log("Frontend - Request URL:", url);
+
+            const response = await axios.patch(url, values);
+            console.log("Server response:", response.data);
 
             form.reset();
             router.refresh();
             closeModal();
         } catch (error) {
-            console.error("Error creating channel:", error);
+            console.error("Frontend - Error details:", {
+                error,
+                requestData: values,
+                channelId: channel?.id,
+                serverId: server?.id
+            });
         }
     };
 
@@ -135,38 +157,46 @@ export const EditChannelModal = () => {
                             <FormField
                                 control={form.control}
                                 name="type"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel className="text-xs font-bold uppercase text-zinc-500 dark:text-secondary/70">
-                                            Channel Type
-                                        </FormLabel>
-                                        <Select
-                                            disabled={isLoading}
-                                            onValueChange={field.onChange}
-                                            defaultValue={field.value}
-                                        >
-                                            <FormControl>
-                                                <SelectTrigger
-                                                    className="border-0 bg-zinc-300/50 text-black capitalize outline-none focus:ring-0 focus:ring-offset-0"
-                                                >
-                                                    <SelectValue placeholder="Select channel type" />
-                                                </SelectTrigger>
-                                            </FormControl>
-                                            <SelectContent>
-                                                {Object.values(ChannelType).map((type) => (
-                                                    <SelectItem
-                                                        key={type}
-                                                        value={type}
-                                                        className="capitalize"
+                                render={({ field }) => {
+                                    console.log("Current field value:", field.value);
+                                    return (
+                                        <FormItem>
+                                            <FormLabel className="text-xs font-bold uppercase text-zinc-500 dark:text-secondary/70">
+                                                Channel Type
+                                            </FormLabel>
+                                            <Select
+                                                disabled={isLoading}
+                                                onValueChange={handleTypeChange}
+                                                value={field.value}
+                                            >
+                                                <FormControl>
+                                                    <SelectTrigger
+                                                        className="border-0 bg-zinc-300/50 text-black capitalize outline-none focus:ring-0 focus:ring-offset-0"
                                                     >
-                                                        {type.toLowerCase()}
-                                                    </SelectItem>
-                                                ))}
-                                            </SelectContent>
-                                        </Select>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
+                                                        <SelectValue placeholder="Select a channel type">
+                                                            {field.value?.toLowerCase()}
+                                                        </SelectValue>
+                                                    </SelectTrigger>
+                                                </FormControl>
+                                                <SelectContent>
+                                                    {Object.values(ChannelType).map((type) => {
+                                                        console.log("Rendering option:", type);
+                                                        return (
+                                                            <SelectItem
+                                                                key={type}
+                                                                value={type}
+                                                                className="capitalize"
+                                                            >
+                                                                {type.toLowerCase()}
+                                                            </SelectItem>
+                                                        );
+                                                    })}
+                                                </SelectContent>
+                                            </Select>
+                                            <FormMessage />
+                                        </FormItem>
+                                    );
+                                }}
                             />
                         </div>
 

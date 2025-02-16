@@ -14,7 +14,7 @@ export async function PATCH(
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const { serverId } = params;  // Destructure serverId from params
+    const { serverId } =await params;  // Destructure serverId from params
 
     if (!serverId) {
       return new NextResponse("Server ID missing", { status: 400 });

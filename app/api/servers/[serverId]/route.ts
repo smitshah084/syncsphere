@@ -1,4 +1,3 @@
-
 import {NextResponse} from "next/server";
 
 import {currentProfile} from "@/lib/current-profile";
@@ -10,11 +9,13 @@ export async function PATCH(req: Request, { params }: { params: { serverId: stri
     try {
         const profile = await currentProfile();
         const { name, imageUrl } = await req.json();
+
+        // Extract serverId after awaiting params
+        const { serverId } = await params;
+
         if (!profile) {
             return new NextResponse("Unauthorized", { status: 401 });
         }
-
-        const { serverId } = params;
 
         if (!serverId) {
             return new NextResponse("Server ID missing", { status: 400 });
@@ -42,12 +43,11 @@ export async function PATCH(req: Request, { params }: { params: { serverId: stri
 export async function DELETE(req: Request, { params }: { params: { serverId: string } }) {
     try {
         const profile = await currentProfile();
+        const { serverId } = await params;
 
         if (!profile) {
             return new NextResponse("Unauthorized", { status: 401 });
         }
-
-        const { serverId } = params;
 
         if (!serverId) {
             return new NextResponse("Server ID missing", { status: 400 });

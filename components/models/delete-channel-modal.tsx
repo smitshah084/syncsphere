@@ -32,13 +32,16 @@ export const DeleteChannelModal = () => {
             const url = qs.stringifyUrl({
                 url: `/api/channels/${channel?.id}`,
                 query: {
-                  serverId: server?.id , 
+                  serverId: server?.id ,
                 },
-              });
+            });
+
             await axios.delete(url);
             closeModal();
+            // First navigate to the server page
+            await router.push(`/servers/${server?.id}`);
+            // Then trigger a refresh after navigation
             router.refresh();
-            router.push(`/servers/${server?.id }`);
 
         }
         catch(err){
@@ -48,10 +51,6 @@ export const DeleteChannelModal = () => {
             setIsLoading(false);
         }
     }
-
-
-
-
 
         return (
                 <Dialog open={isModalOpen} onOpenChange={closeModal} >
