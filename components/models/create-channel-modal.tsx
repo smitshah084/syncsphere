@@ -67,8 +67,6 @@ export const CreateChannelModal = () => {
     useEffect(() => {
         if(channelType){
             form.setValue("type", channelType);
-        } else {
-            form.setValue("type", ChannelType.TEXT);
         }
     },[channelType,form])
 
@@ -84,7 +82,14 @@ export const CreateChannelModal = () => {
                     serverId : serverId
                 }
             });
-            await axios.post(url, values);
+
+            // Ensure we're sending the correct channel type
+            const payload = {
+                name: values.name,
+                type: values.type
+            };
+
+            await axios.post(url, payload);
 
             form.reset();
             router.refresh();
@@ -143,6 +148,7 @@ export const CreateChannelModal = () => {
                                         <Select
                                             disabled={isLoading}
                                             onValueChange={field.onChange}
+                                            value={field.value} // Add this line
                                             defaultValue={field.value}
                                         >
                                             <FormControl>
