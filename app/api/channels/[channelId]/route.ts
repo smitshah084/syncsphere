@@ -9,6 +9,7 @@ export async function DELETE(
 ) {
   try {
     const profile = await currentProfile();
+
     if (!profile) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
@@ -20,11 +21,11 @@ export async function DELETE(
       return new NextResponse("Server ID missing", { status: 400 });
     }
 
-    if (!context.params || !context.params.channelId) {
+    if (!context.params || !context.params?.channelId) {
       return new NextResponse("Channel ID missing", { status: 400 });
     }
 
-    const channelId = context.params.channelId;
+    const channelId = context.params?.channelId;
 
     const server = await db.server.update({
       where: {
@@ -96,7 +97,7 @@ export async function PATCH(
     console.log("Backend - Updating channel with data:", {
       name,
       type,
-      channelId: context.params.channelId,
+      channelId: context.params?.channelId,
       serverId
     });
 

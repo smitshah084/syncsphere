@@ -1,5 +1,6 @@
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/db";
+import { RedirectToSignIn } from "@clerk/nextjs";
 
 import { redirect } from "next/navigation";
 
@@ -18,17 +19,17 @@ const inviteCodePage = async ({
     const profile = await currentProfile();
 
     if (!profile) {
-      return redirectToSignIn();
+      return <RedirectToSignIn/>;
     }
-
-    if (!params.inviteCode) {
+   const {inviteCode}=await params;
+    if (!inviteCode) {
       return redirect("/");
     }
 
     // Find existing membership
     const existingServer = await db.server.findFirst({
       where: {
-        inviteCode: params.inviteCode,
+        inviteCode: inviteCode,
         members: {
           some: {
             profileId: profile.id
@@ -44,7 +45,7 @@ const inviteCodePage = async ({
     // Find server first
     const server = await db.server.findFirst({
       where: {
-        inviteCode: params.inviteCode,
+        inviteCode: inviteCode,
       },
     });
 
