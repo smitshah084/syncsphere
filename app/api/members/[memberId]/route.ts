@@ -3,64 +3,68 @@ import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 
 export async function DELETE(
-        req: Request,
-        { params } :{ params : { memberId:string } }
-      ) {
-      
-        try {
-          const profile = await currentProfile();
-      
-          const { searchParams } = new URL(req.url);
-          const serverId = searchParams.get("serverId");
-      
-          if (!profile) {
-            return new NextResponse("Unauthorized", { status: 401 });
-          }
-      
-          if (!serverId) {
-            return new NextResponse("Server ID missing", { status: 400 });
-          }
-      
-          if (!params.memberId) {
-                return new NextResponse("Member ID missing", { status: 400 });
-              }
-              
-        const server = await db.server.update({
-        where: {
-                id: serverId,
-                profileId: profile.id,
-        },
-        data: {
-                members: {
-                deleteMany: {
-                id: params.memberId,
-                profileId: {
-                not: profile.id
-                }
-                }
-        }
-        },
-        include: {
-                members: {
-                  include: {
-                    profile: true,
-                  },
-                  orderBy: {
-                    role: "asc",
-                  },
-                },
-              },
-        });
+  req: Request,
+  { params }: { params: Promise<{ memberId: string }> }
+) {
+  try {
+    const profile = await currentProfile();
 
-        return NextResponse.json(server);
-        
-        } catch (error) {
-          console.log("[MEMBER_ID_DELETE]", error);
-          return new NextResponse("Internal Error", { status: 500 });
-        }
-      }
+    const { searchParams } = new URL(req.url);
+    const serverId = searchParams.get("serverId");
 
-export async function PATCH(req: Request, context: { params: { memberId: string } }) {
+    if (!profile) {
+      return new NextResponse("Unauthorized", { status: 401 });
+    }
+
+    if (!serverId) {
+      return new NextResponse("Server ID missing", { status: 400 });
+    }
+
+    const resolvedParams = await params;
+    const memberId = resolvedParams.memberId;
+
+    if (!memberId) {
+      return new NextResponse("Member ID missing", { status: 400 });
+    }
+
+    const server = await db.server.update({
+      where: {
+        id: serverId,
+        profileId: profile.id,
+      },
+      data: {
+        members: {
+          deleteMany: {
+            id: memberId,
+            profileId: {
+              not: profile.id
+            }
+          }
+        }
+      },
+      include: {
+        members: {
+          include: {
+            profile: true,
+          },
+          orderBy: {
+            role: "asc",
+          },
+        },
+      },
+    });
+
+    return NextResponse.json(server);
+  } catch (error) {
+    console.log("[MEMBER_ID_DELETE]", error);
+    return new NextResponse("Internal Error", { status: 500 });
+  }
+}
+
+export async function PATCH(
+  req: Request,
+  { params }: { params: Promise<{ memberId: string }> }
+) {
   try {
     const profile = await currentProfile();
     const searchParams = new URLSearchParams(new URL(req.url).search);
@@ -75,8 +79,10 @@ export async function PATCH(req: Request, context: { params: { memberId: string 
       return new NextResponse("Server ID missing", { status: 400 });
     }
 
-    const params = await context.params; // Await the context.params object
-    if (!params?.memberId) {
+    const resolvedParams = await params;
+    const memberId = resolvedParams.memberId;
+
+    if (!memberId) {
       return new NextResponse("Member ID missing", { status: 400 });
     }
 
@@ -89,7 +95,7 @@ export async function PATCH(req: Request, context: { params: { memberId: string 
         members: {
           update: {
             where: {
-              id: params.memberId,
+              id: memberId,
               profileId: {
                 not: profile.id,
               },

@@ -17,6 +17,10 @@ const ioHandler = (req: NextApiRequest, res: NextApiResponseServerIo) => {
         const io = new SocketIO(httpServer, {
             path: path,
             addTrailingSlash: false,
+            cors: {
+                origin: "*",
+                methods: ["GET", "POST"]
+              }
         });
         res.socket.server.io = io;
     }

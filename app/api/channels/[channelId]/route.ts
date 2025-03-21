@@ -5,11 +5,10 @@ import { MemberRole } from "@prisma/client";
 
 export async function DELETE(
   req: Request,
-  context: { params?: { channelId?: string } }
+  { params }: { params: Promise<{ channelId: string }> }
 ) {
   try {
     const profile = await currentProfile();
-
     if (!profile) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
@@ -21,11 +20,12 @@ export async function DELETE(
       return new NextResponse("Server ID missing", { status: 400 });
     }
 
-    if (!context.params || !context.params?.channelId) {
+    const resolvedParams = await params;
+    const channelId = resolvedParams.channelId;
+
+    if (!channelId) {
       return new NextResponse("Channel ID missing", { status: 400 });
     }
-
-    const channelId = context.params?.channelId;
 
     const server = await db.server.update({
       where: {
@@ -60,13 +60,17 @@ export async function DELETE(
 
 export async function PATCH(
   req: Request,
-  context: { params?: { channelId?: string } }
+  { params }: { params: Promise<{ channelId: string }> }
 ) {
   try {
     const profile = await currentProfile();
     const body = await req.json();
     console.log("Backend - Received request body:", body);
-    console.log("Backend - Channel ID:", context.params?.channelId);
+
+    const resolvedParams = await params;
+    const channelId = resolvedParams.channelId;
+
+    console.log("Backend - Channel ID:", channelId);
 
     const { name, type } = body;
 
@@ -77,6 +81,7 @@ export async function PATCH(
 
     const { searchParams } = new URL(req.url);
     const serverId = searchParams.get("serverId");
+
     console.log("Backend - Server ID from query:", serverId);
 
     if (!serverId) {
@@ -84,7 +89,7 @@ export async function PATCH(
       return new NextResponse("Server ID missing", { status: 400 });
     }
 
-    if (!context.params?.channelId) {
+    if (!channelId) {
       console.log("Backend - Missing channel ID");
       return new NextResponse("Channel ID missing", { status: 400 });
     }
@@ -97,7 +102,7 @@ export async function PATCH(
     console.log("Backend - Updating channel with data:", {
       name,
       type,
-      channelId: context.params?.channelId,
+      channelId,
       serverId
     });
 
@@ -117,7 +122,7 @@ export async function PATCH(
         channels: {
           update: {
             where: {
-              id: context.params.channelId,
+              id: channelId,
               NOT: {
                 name: "general",
               },
