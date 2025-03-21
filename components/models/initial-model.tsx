@@ -71,9 +71,7 @@ export const InitialModel = () => {
 
   return (
     <Dialog open={true}>
-
-    <DialogContent className="dark:text-neutral-400 p-0 overflow-hidden">
-
+      <DialogContent className="bg-white text-black p-0 overflow-hidden">
         <DialogHeader className="pt-8 px-6">
           <DialogTitle className="text-2xl text-center font-bold">
             Customize your server
@@ -127,7 +125,7 @@ export const InitialModel = () => {
                 />
               </div>
 
-              <DialogFooter className="px-6 py-4 flex items-center justify-end space-x-2">
+              <DialogFooter className="bg-gray-100 px-6 py-4">
                 <Button variant="primary" disabled={isLoading}>
                   Create
                 </Button>

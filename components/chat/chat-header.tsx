@@ -28,6 +28,7 @@ const ChatHeader = ({serverId, name, type, imageUrl}: ChatHeaderProps) => {
     className="font-semibold text-md text-black dark:text-white">
     {name}
     </p>
+    
       <div className="ml-auto flex items-center">
         <SocketIndicator/>
       </div>

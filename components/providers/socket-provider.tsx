@@ -25,20 +25,21 @@ export const SocketProvider= ({
     const [isConnected,setIsConnected] = useState(false);
 
     useEffect(()=>{
-        const socketInstance =new (ClientIO as any)(process.env.NEXT_PUBLIC_SOCKET_URL!,{
-            path:"/api/socket/io",
-            addTrailingSlash:false,
+        const socketInstance = new (ClientIO as any)(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000", {
+            path: "/api/socket/io",
+            addTrailingSlash: false,
         });
 
-        socketInstance.on("connect",()=>{
-        setIsConnected(true);
+        socketInstance.on("connect", () => {
+            setIsConnected(true);
             console.log("Connected to socket");
         });
 
-        socketInstance.on("disconnect",()=>{
+        socketInstance.on("disconnect", () => {
             setIsConnected(false);
             console.log("Disconnected from socket");
         });
+
         setSocket(socketInstance);
         return () => {
             socketInstance.disconnect();

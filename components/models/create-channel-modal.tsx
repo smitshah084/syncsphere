@@ -52,10 +52,10 @@ type FormValues = z.infer<typeof formSchema>;
 export const CreateChannelModal = () => {
     const { isOpen, closeModal, type, data } = useModal();
     const router = useRouter();
-    // const { serverId } = data;
-    const params=useParams();
+    const params = useParams();
     const isModalOpen = isOpen && type === "createChannel";
-    const {channelType} = data;
+    const { channelType } = data;
+
     const form = useForm<FormValues>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -65,26 +65,34 @@ export const CreateChannelModal = () => {
     });
 
     useEffect(() => {
-        if(channelType){
+        if (channelType) {
             form.setValue("type", channelType);
         } else {
             form.setValue("type", ChannelType.TEXT);
         }
-    },[channelType,form])
+    }, [channelType, form]);
 
     const isLoading = form.formState.isSubmitting;
 
     const onSubmit = async (values: FormValues) => {
         try {
+            console.log("Submitting channel with type:", values.type); // Debug log
 
             const { serverId } = await Promise.resolve(params);
             const url = qs.stringifyUrl({
                 url: "/api/channels",
                 query: {
-                    serverId : serverId
+                    serverId: serverId
                 }
             });
-            await axios.post(url, values);
+
+            // Ensure we're explicitly setting the type in the request
+            const response = await axios.post(url, {
+                name: values.name,
+                type: values.type
+            });
+
+            console.log("Channel created:", response.data); // Debug log
 
             form.reset();
             router.refresh();
@@ -92,6 +100,12 @@ export const CreateChannelModal = () => {
         } catch (error) {
             console.error("Error creating channel:", error);
         }
+    };
+
+    // Handle type change explicitly
+    const handleTypeChange = (value: ChannelType) => {
+        console.log("Channel type changed to:", value); // Debug log
+        form.setValue("type", value);
     };
 
     const handleClose = () => {
@@ -142,14 +156,16 @@ export const CreateChannelModal = () => {
                                         </FormLabel>
                                         <Select
                                             disabled={isLoading}
-                                            onValueChange={field.onChange}
-                                            defaultValue={field.value}
+                                            onValueChange={handleTypeChange}
+                                            value={field.value}
                                         >
                                             <FormControl>
                                                 <SelectTrigger
                                                     className="border-0 bg-zinc-300/50 text-black capitalize outline-none focus:ring-0 focus:ring-offset-0"
                                                 >
-                                                    <SelectValue placeholder="Select channel type" />
+                                                    <SelectValue placeholder="Select channel type">
+                                                        {field.value.toLowerCase()}
+                                                    </SelectValue>
                                                 </SelectTrigger>
                                             </FormControl>
                                             <SelectContent>

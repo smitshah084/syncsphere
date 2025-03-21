@@ -15,7 +15,7 @@ export const SocketIndicator = () => {
     }
     return (
         <Badge variant="outline" className="bg-green-600 text-white border-none">
-            using realtime updates
-    </Badge>
-    ); // Added to handle the case when isConnected is true
+            Using realtime updates
+        </Badge>
+    );
 };
