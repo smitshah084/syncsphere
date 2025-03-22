@@ -7,6 +7,7 @@ import { SocketProvider } from "@/components/providers/socket-provider";
 import { cn } from "@/lib/utils";
 import "./globals.css";
 import localFont from "next/font/local";
+import { QueryProvider } from "@/components/providers/query-provider";
 
 
 const openSans = Open_Sans({
@@ -52,8 +53,9 @@ export default function RootLayout({
         storageKey="discord-theme">
         <SocketProvider>
         <ModalProvider />
-
+        <QueryProvider>
         {children}
+        </QueryProvider>
         </SocketProvider>
         </ThemeProvider>
       </body>
