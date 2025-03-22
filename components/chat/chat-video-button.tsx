@@ -5,7 +5,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Video, VideoOff } from "lucide-react";
 
 
-import ActionTooltip from "@/components/action-tooltip";
+import {ActionTooltip} from "@/components/action-tooltip";
 
 const ChatVideoButton = () => {
   const pathname = usePathname();
@@ -29,12 +29,12 @@ const ChatVideoButton = () => {
   const tooltipLabel = isVideo ? "End video call" : "Start video call";
 
   return (
-    <>
+
     <ActionTooltip side="bottom" label={tooltipLabel}>
       <button onClick={onClick} className="mr-4 transition hover:opacity-75">
         <Icon className="w-6 h-6 text-zinc-500 dark:text-zinc-400" />
       </button>
-      </>
+</ActionTooltip>
   )
 }
 
