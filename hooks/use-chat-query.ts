@@ -18,7 +18,7 @@ export const useChatQuery = ({
       }: ChatQueryProps) => {
         const { isConnected } = useSocket();
         const params = useParams();
-      
+
         const fetchMessages = async ({ pageParam = undefined }) => {
                 const url = qs.stringifyUrl({
                   url: apiUrl,
@@ -27,11 +27,11 @@ export const useChatQuery = ({
                     [paramKey]: paramValue,
                   },
                 }, { skipNull: true });
-              
+
                 const res = await fetch(url);
                 return res.json();
               };
-      
+
 
               const {
                 data,
@@ -43,10 +43,11 @@ export const useChatQuery = ({
                 queryKey: [queryKey],
                 queryFn: fetchMessages,
                 getNextPageParam: (lastPage) => lastPage?.nextCursor,
-                refetchInterval: isConnected ? false : 1000,
+                refetchInterval:   1000,
+                // refetchInterval: isConnected ? false : 1000,
                 initialPageParam: undefined, // not in video
               });
-              
+
               return {
                 data,
                 fetchNextPage,
