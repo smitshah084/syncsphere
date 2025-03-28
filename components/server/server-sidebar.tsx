@@ -72,7 +72,7 @@ export const ServerSidebar =async ({serverId}:ServerSidebarProps) => {
     const searchData = [
         {
             label: "Text Channels",
-            type: "channel",
+            type: "channel" as const,
             data: textChannels?.map((channel) => ({
                 id: channel.id,
                 name: channel.name,
@@ -81,7 +81,7 @@ export const ServerSidebar =async ({serverId}:ServerSidebarProps) => {
         },
         {
             label: "Voice Channels",
-            type: "channel",
+            type: "channel" as const,
             data: audioChannels?.map((channel) => ({
                 id: channel.id,
                 name: channel.name,
@@ -90,7 +90,7 @@ export const ServerSidebar =async ({serverId}:ServerSidebarProps) => {
         },
         {
             label: "Video Channels",
-            type: "channel",
+            type: "channel" as const,
             data: videoChannels?.map((channel) => ({
                 id: channel.id,
                 name: channel.name,
@@ -99,7 +99,7 @@ export const ServerSidebar =async ({serverId}:ServerSidebarProps) => {
         },
         {
             label: "Members",
-            type: "member",
+            type: "member" as const,
             data: members?.map((member) => ({
                 id: member.id,
                 name: member.profile.name,
@@ -199,7 +199,7 @@ export const ServerSidebar =async ({serverId}:ServerSidebarProps) => {
                     </div>
                     </div>
                 )}
-                
+
             </ScrollArea>
         </div>
     );

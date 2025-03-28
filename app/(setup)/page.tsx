@@ -4,26 +4,28 @@ import { redirect } from "next/navigation";
 import { InitialModel } from "@/components/models/initial-model";
 
 const SetupPage = async () => {
-        const profile = await initialProfile();
-        
-        if(!profile) {
-                return null;
-        }
+    const profile = await initialProfile();
 
-        const server = await db.server.findFirst({
-                where: {
-                        members: {
-                                some: {
-                                        profileId : profile.id
-                                }
-                        }
+    // Type guard to ensure profile is not an Element and has an id
+    if (!profile || typeof profile !== 'object' || !('id' in profile)) {
+        return null;
+    }
+
+    const server = await db.server.findFirst({
+        where: {
+            members: {
+                some: {
+                    profileId: profile.id
                 }
-        });
+            }
+        }
+    });
 
-        if(server)
-                return redirect(`/servers/${server.id}`);
-        
-        return <div><InitialModel/></div>;
-}
+    if (server) {
+        return redirect(`/servers/${server.id}`);
+    }
+
+    return <InitialModel />;
+};
 
 export default SetupPage;

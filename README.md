@@ -1,37 +1,49 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SyncSphere
 
-## Getting Started
+<div align="center">
+  <img src="public/logo.png" alt="SyncSphere Logo" width="200" />
+  <h3>A modern real-time communication platform</h3>
+</div>
 
-First, run the development server:
+## 📝 Overview
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+SyncSphere is a feature-rich communication platform designed for real-time collaboration. Taking inspiration from platforms like Discord, SyncSphere enables users to create servers, channels, and engage in seamless conversations through text, audio, and video. Built with modern web technologies and a focus on user experience, SyncSphere provides a robust framework for online communities and teams.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+![SyncSphere Demo](public/demo.gif)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## ✨ Features
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Server Management**: Create, customize, and manage servers
+- **Channel Types**: Support for text, audio, and video channels
+- **Real-time Communication**: Socket-based messaging for instant updates
+- **User Roles**: Admin, Moderator, and Guest role management
+- **Direct Messaging**: Private conversations between users
+- **Media Sharing**: Upload and share images, PDFs, and other files
+- **Live Video/Audio**: Integrated LiveKit for real-time audio/video communication
+- **Dark/Light Mode**: Customizable UI themes
+- **Mobile Responsive**: Fully responsive design for all devices
+- **Authentication**: Secure user authentication via Clerk
 
-## Learn More
+## 🛠️ Tech Stack
 
-To learn more about Next.js, take a look at the following resources:
+- **Frontend**: React, Next.js 15, TypeScript, Tailwind CSS
+- **Backend**: Next.js API routes, Prisma ORM
+- **Database**: PostgreSQL
+- **Real-time Communication**: Socket.IO
+- **Authentication**: Clerk
+- **Video/Audio**: LiveKit
+- **File Storage**: UploadThing
+- **Styling**: Radix UI, shadcn/ui, Tailwind CSS
+- **State Management**: Zustand, React Query
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🚀 Getting Started
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Prerequisites
 
-## Deploy on Vercel
+- Node.js (v18 or higher)
+- PostgreSQL
+- npm or yarn
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Environment Setup
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# syncsphere
+Create a `.env` file in the root directory with the following variables:

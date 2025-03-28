@@ -12,7 +12,7 @@ import {
 import qs from "query-string"
 import axios from "axios";
 import { useModal } from "@/hooks/use-modal-store";
-import { ServerWithMembersWithProfile } from "@/types";
+import { ServerWithMembersWithProfile } from "@/lib/types";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { UserAvatar } from "@/components/user-avatar";
 import { MoreVertical ,Check, Shield ,ShieldQuestion ,ShieldAlert, ShieldCheck, Gavel, Loader2 } from "lucide-react";

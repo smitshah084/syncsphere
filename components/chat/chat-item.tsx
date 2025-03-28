@@ -241,7 +241,7 @@ const form = useForm<z.infer<typeof formSchema>>({
             openModal("deleteMessage", {
               apiUrl: `${socketUrl}/${id}`,
               query: socketQuery,
-              fileUrl,
+              ...(fileUrl && { fileUrl }),
             })
         }
           className="cursor-pointer ml-auto w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300 transition"

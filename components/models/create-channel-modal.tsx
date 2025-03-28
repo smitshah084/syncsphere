@@ -78,7 +78,7 @@ export const CreateChannelModal = () => {
         try {
             console.log("Submitting channel with type:", values.type); // Debug log
 
-            const { serverId } = await Promise.resolve(params);
+            const serverId = params?.serverId;
             const url = qs.stringifyUrl({
                 url: "/api/channels",
                 query: {

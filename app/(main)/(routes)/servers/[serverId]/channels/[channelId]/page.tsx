@@ -44,7 +44,7 @@ const ChannelIdPage = async ({ params }: ChannelIdProps) => {
         serverId={channel.serverId}
         type="channel"
       />
-      <div className="flex-1 overflow-y-auto">
+      {/* <div className="flex-1 overflow-y-auto"> */}
         {channel.type === ChannelType.TEXT && (
           <>
             <ChatMessages
@@ -72,9 +72,9 @@ const ChannelIdPage = async ({ params }: ChannelIdProps) => {
             />
           </>
         )}
-      
+
       </div>
-    </div>
+    // </div>
   );
 };
 

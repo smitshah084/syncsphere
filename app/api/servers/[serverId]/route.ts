@@ -5,7 +5,7 @@ import {currentProfile} from "@/lib/current-profile";
 import {db} from "@/lib/db";
 
 
-export async function PATCH(req: Request, { params }: { params: { serverId: string } }) {
+export async function PATCH(req: Request,{ params }: { params: Promise<{ serverId: string }> }) {
     try {
         const profile = await currentProfile();
         const { name, imageUrl } = await req.json();
@@ -40,10 +40,10 @@ export async function PATCH(req: Request, { params }: { params: { serverId: stri
     }
 }
 
-export async function DELETE(req: Request, { params }: { params: { serverId: string } }) {
+export async function DELETE(req: Request,{ params }: { params: Promise<{ serverId: string }> }) {
     try {
         const profile = await currentProfile();
-        const serverId = params.serverId;
+        const {serverId} = await params;
 
         if (!profile) {
             return new NextResponse("Unauthorized", { status: 401 });

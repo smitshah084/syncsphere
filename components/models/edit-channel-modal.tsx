@@ -91,7 +91,8 @@ export const EditChannelModal = () => {
             console.log("Current channel type:", channel?.type);
             console.log("Selected type:", values.type);
 
-            const { serverId } = await Promise.resolve(params);
+            const serverId = params?.serverId;
+
             const url = qs.stringifyUrl({
                 url: `/api/channels/${channel?.id}`,
                 query: {
