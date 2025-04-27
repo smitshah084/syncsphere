@@ -17,23 +17,30 @@ const MediaRoom = ({ chatId, video, audio }: MediaRoomProps) => {
   const [token, setToken] = useState("");
 
   useEffect(() => {
-    let name;
-    if (!user?.firstName || !user?.lastName)
-      name = `${user?.username}`;
-    else
-      name = `${user.firstName} ${user.lastName}`;
+    if (!user?.firstName || !user?.lastName) return;
 
-    (async () => {
+    const name = `${user.firstName} ${user.lastName}`;
+
+    const fetchToken = async () => {
       try {
         const resp = await fetch(
           `/api/livekit?room=${chatId}&username=${name}`,
         );
         const data = await resp.json();
-        setToken(data.token);
+        console.log("Data from /api/livekit:", data);
+
+        if (data && typeof data.token === "string") {
+          console.log("Token received:", data.token.substring(0, 20) + "...");
+          setToken(data.token);
+        } else {
+          console.error("Invalid token data received:", data);
+        }
       } catch (e) {
-        console.log(e);
+        console.error("Error fetching LiveKit token:", e);
       }
-    })();
+    };
+
+    fetchToken();
   }, [user?.firstName, user?.lastName, chatId]);
 
   if (token === "") {
@@ -45,11 +52,16 @@ const MediaRoom = ({ chatId, video, audio }: MediaRoomProps) => {
     );
   }
 
+  // Ensure token is definitely a string before passing to LiveKitRoom
+  const tokenString = String(token);
+
+  console.log("Connecting to LiveKit with token type:", typeof tokenString);
+
   return (
     <LiveKitRoom
       data-lk-theme="default"
       serverUrl={process.env.NEXT_PUBLIC_LIVEKIT_URL}
-      token={token}
+      token={tokenString}
       connect={true}
       video={video}
       audio={audio}
@@ -60,4 +72,3 @@ const MediaRoom = ({ chatId, video, audio }: MediaRoomProps) => {
 };
 
 export default MediaRoom;
-
